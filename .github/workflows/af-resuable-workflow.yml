@@ -18,9 +18,15 @@
 
 name: Deploy DotNet project to Azure Function App
 
-on:
-  push:
-    branches: ["master"]
+on:  # Specifies the event triggering the workflow
+  workflow_call:  # Indicates that this is a reusable workflow
+    inputs:  # Defines the inputs that can be passed from the caller workflow
+      config-path:  # Name of the input
+        required: true  # Specifies that this input is mandatory
+        type: string  # Specifies the type of the input
+    secrets:  # Defines the secrets that can be passed from the caller workflow
+      envPAT:  # Name of the secret
+        required: true  # Specifies that this secret is mandatory
 
 env:
   AZURE_FUNCTIONAPP_NAME: 'your-app-name'   # set this to your function app name on Azure
@@ -28,35 +34,14 @@ env:
   DOTNET_VERSION: '6.0.x'                   # set this to the dotnet version to use (e.g. '2.1.x', '3.1.x', '5.0.x')
 
 jobs:
-  build-and-deploy:
-    runs-on: windows-latest # For Linux, use ubuntu-latest
-    environment: dev
-    steps:
-    - name: 'Checkout GitHub Action'
-      uses: actions/checkout@v4
+  call-workflow-passing-data:
+    #uses: missAnkita/azure-functions-demo1/edit/master/.github/workflows/af-resuable-workflow.yml@master
+    uses: missAnkita/azure-functions-demo1/blob/master/.github/workflows/master_ankita-test-azfunctions-app.yml@master
+    with:
+      #config-path: .github/labeler.yml
+      dotnet-version: ${{ env.DOTNET_VERSION }}
+    secrets: inherit
+    
+  
 
-    # If you want to use Azure RBAC instead of Publish Profile, then uncomment the task below
-    # - name: 'Login via Azure CLI'
-    #   uses: azure/login@v1
-    #   with:
-    #     creds: ${{ secrets.AZURE_RBAC_CREDENTIALS }} # set up AZURE_RBAC_CREDENTIALS secrets in your repository
-
-    - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
-
-    - name: 'Resolve Project Dependencies Using Dotnet'
-      shell: pwsh # For Linux, use bash
-      run: |
-        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-        dotnet build --configuration Release --output ./output
-        popd
-
-    - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@v1
-      id: fa
-      with:
-        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }} # Remove publish-profile to use Azure RBAC
+    
