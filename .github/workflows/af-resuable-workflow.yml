@@ -38,8 +38,7 @@ jobs:
     #uses: missAnkita/azure-functions-demo1/edit/master/.github/workflows/af-resuable-workflow.yml@master
     uses: missAnkita/azure-functions-demo1/blob/master/.github/workflows/master_ankita-test-azfunctions-app.yml@master
     with:
-      #config-path: .github/labeler.yml
-      dotnet-version: ${{ env.DOTNET_VERSION }}
+      config-path: .github/labeler.yml
     secrets: inherit
     
   
