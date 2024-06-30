@@ -5,8 +5,8 @@ name: R
 
 on:
   push:
-    branches:
-      - master
+    branches: [ test ]
+      #- master
   workflow_dispatch:
 
 env:
