@@ -19,13 +19,13 @@
 name: Caller Workflow 
 on:  # Specifies the event triggering the workflow
   workflow_call:  # Indicates that this is a reusable workflow
-    # inputs:  # Defines the inputs that can be passed from the caller workflow
-    #   config-path:  # Name of the input
-    #     required: true  # Specifies that this input is mandatory
-    #     type: string  # Specifies the type of the input
-    # secrets:  # Defines the secrets that can be passed from the caller workflow
-    #   envPAT:  # Name of the secret
-    #     required: true  # Specifies that this secret is mandatory
+    inputs:  # Defines the inputs that can be passed from the caller workflow
+      config-path:  # Name of the input
+        required: true  # Specifies that this input is mandatory
+        type: string  # Specifies the type of the input
+    secrets:  # Defines the secrets that can be passed from the caller workflow
+      envPAT:  # Name of the secret
+        required: true  # Specifies that this secret is mandatory
 
 env:
   AZURE_FUNCTIONAPP_NAME: 'test-azure-functions-app'   # set this to your function app name on Azure
@@ -36,8 +36,8 @@ jobs:
   call-workflow-passing-data:
     uses: missAnkita/azure-functions-demo1/edit/master/.github/workflows/af-resuable-workflow.yml@master
     #uses: missAnkita/azure-functions-demo1/blob/master/.github/workflows/master_ankita-test-azfunctions-app.yml@master
-    #with:
-      #config-path: .github/labeler.yml
+    with:
+      config-path: .github/labeler.yml
     secrets: inherit
     
   
