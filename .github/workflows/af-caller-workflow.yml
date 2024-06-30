@@ -16,8 +16,7 @@
 #
 # For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples/tree/master/FunctionApp
 
-name: Caller Workflow To Deploy DotNet project to Azure Function App
-
+name: Caller Workflow 
 on:  # Specifies the event triggering the workflow
   workflow_call:  # Indicates that this is a reusable workflow
     # inputs:  # Defines the inputs that can be passed from the caller workflow
