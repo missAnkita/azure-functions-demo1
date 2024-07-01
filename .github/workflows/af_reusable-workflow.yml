@@ -31,6 +31,8 @@ jobs:
       - name: 'Resolve Project Dependencies Using Dotnet'
         shell: bash
         run: |
+          sudo apt install -y aspnetcore-runtime-8.0
+          sudo apt install -y dotnet-sdk-8.0
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           #dotnet build --configuration Release --output ./output
           dotnet build --configuration Release --property:OutputPath=./output
