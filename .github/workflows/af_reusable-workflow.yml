@@ -28,10 +28,12 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Install .NET SDK
+      - name: Install .NET SDK and ASP.NET Core runtime
         run: |
           sudo apt-get update
-          sudo apt-get install -y dotnet-sdk-8.0
+          sudo apt-get install -y apt-transport-https && sudo apt-get update
+          sudo apt-get install -y dotnet-sdk-${{ env.DOTNET_VERSION }}
+          sudo apt-get install -y aspnetcore-runtime-${{ env.DOTNET_VERSION }}
 
       - name: 'Resolve Project Dependencies Using Dotnet'
         shell: bash
